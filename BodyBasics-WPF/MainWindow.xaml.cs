@@ -132,6 +132,13 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         private int displayHeight;
 
         /// <summary>
+        /// Detect a truth action 
+        /// </summary>
+        private bool choose_flag_right;
+
+        private bool choose_flag_left;
+
+        /// <summary>
         /// Number of items selected
         /// </summary>
         private int numSelected = 0;
@@ -156,6 +163,8 @@ namespace Microsoft.Samples.Kinect.BodyBasics
         private bool in_Stretch;
 
         private int stretch_state;
+
+        private double showtest;
 
         private bool show_color;
 
@@ -277,6 +286,10 @@ namespace Microsoft.Samples.Kinect.BodyBasics
             
             this.stretch_state = 0;
 
+            this.choose_flag_right = false;
+
+            this.choose_flag_left = false;
+
             // initialize the components (controls) of the window
             this.InitializeComponent();
 
@@ -346,6 +359,28 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                     if (this.PropertyChanged != null)
                     {
                         this.PropertyChanged(this, new PropertyChangedEventArgs("StretchCount"));
+                    }
+                }
+            }
+        }
+
+        public double ShowTest
+        {
+            get
+            {
+                return this.showtest;
+            }
+
+            set
+            {
+                if (this.showtest != value)
+                {
+                    this.showtest = value;
+
+                    // notify any bound elements that the text has changed
+                    if (this.PropertyChanged != null)
+                    {
+                        this.PropertyChanged(this, new PropertyChangedEventArgs("ShowTest"));
                     }
                 }
             }
@@ -452,8 +487,18 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                             this.DrawHand(body.HandLeftState, jointPoints[JointType.HandLeft], dc);
                             this.DrawHand(body.HandRightState, jointPoints[JointType.HandRight], dc);
 
+                            if(app_status == STAT_INITIAL)
+                            {
+                                this.ChooseItem(body.HandRightState, jointPoints[JointType.HandRight],body.HandLeftState,jointPoints[JointType.HandLeft]);
+                            }
 
-                            this.Stretch_Count(joints, jointPoints, 10);
+                            if(app_status == STAT_MOVING)
+                            {
+                                this.Stretch_Count(joints, jointPoints, 10);
+                            }
+
+
+                            
                         }
                     }
 
@@ -777,6 +822,262 @@ namespace Microsoft.Samples.Kinect.BodyBasics
                 SelectItem.Visibility = Visibility.Visible;
                 CounterBox.Visibility = Visibility.Hidden;
             }
+        }
+
+        private void ChooseItem(HandState handState1, Point handPosition1, HandState handState2, Point handPosition2)
+        {
+            if(handPosition1.Y>=80 && handPosition1.Y<=180)
+            {
+                if (handPosition1.X >= 25 && handPosition1.X <= 150)
+                {
+                    if (handState1 == HandState.Closed)
+                    {
+                        choose_flag_right = true;
+                    }
+                    else if (handState1 == HandState.Open)
+                    {
+                        if (choose_flag_right)
+                        {
+                            Button btn = new Button()
+                            {
+                                Width = 160,
+                                Height = 50,
+                            };
+                            btn.Background = new ImageBrush
+                            {
+                                ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/action1.png"))
+                            };
+                            Canvas.SetTop(btn, numSelected * 52);
+                            Selected.Children.Add(btn);
+                            numSelected++;
+                            itemSelected.Add(ACTION_1);
+                            choose_flag_right = false;
+                        }
+                    }
+                }
+                else if (handPosition1.X >= 200 && handPosition1.X <= 300)
+                {
+                    if (handState1 == HandState.Closed)
+                    {
+                        choose_flag_right = true;
+                    }
+                    else if (handState1 == HandState.Open)
+                    {
+                        if (choose_flag_right)
+                        {
+                            Button btn = new Button()
+                            {
+                                Width = 160,
+                                Height = 50,
+                            };
+                            btn.Background = new ImageBrush
+                            {
+                                ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/action2.png"))
+                            };
+                            Canvas.SetTop(btn, numSelected * 52);
+                            Selected.Children.Add(btn);
+                            numSelected++;
+                            itemSelected.Add(ACTION_2);
+                            choose_flag_right = false;
+                        }
+                    }
+                }
+                else if (handPosition1.X >= 380 && handPosition1.X <= 450)
+                {
+                    if (handState1 == HandState.Closed)
+                    {
+                        choose_flag_right = true;
+                    }
+                    else if (handState1 == HandState.Open)
+                    {
+                        if (choose_flag_right)
+                        {
+                            Button btn = new Button()
+                            {
+                                Width = 160,
+                                Height = 50,
+                            };
+                            btn.Background = new ImageBrush
+                            {
+                                ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/action3.png"))
+                            };
+                            Canvas.SetTop(btn, numSelected * 52);
+                            Selected.Children.Add(btn);
+                            numSelected++;
+                            itemSelected.Add(ACTION_3);
+                            choose_flag_right = false;
+                        }
+                    }
+                }
+            }
+
+
+            else if(handPosition1.Y>=240 && handPosition1.Y<=300)
+            {
+                if(handPosition1.X>=0 && handPosition1.X<=200)
+                {
+                    if (handState1 == HandState.Closed)
+                    {
+                        choose_flag_left = true;
+                    }
+                    else if (handState1 == HandState.Open)
+                    {
+                        if (choose_flag_left)
+                        {
+                            if (numSelected > 0)
+                            {
+                                Selected.Children.RemoveAt(--numSelected);
+                                itemSelected.RemoveAt(itemSelected.Count - 1);
+                            }
+                            choose_flag_left = false;
+                        }
+                    }
+                }
+                else if (handPosition1.X >= 220 && handPosition1.X <= 480)
+                {
+                    if (handState1 == HandState.Closed)
+                    {
+                        choose_flag_left = true;
+                    }
+                    else if (handState1 == HandState.Open)
+                    {
+                        if (choose_flag_left)
+                        {
+                            SetStatus(STAT_MOVING);
+                            choose_flag_left = false;
+                        }
+                    }
+                }
+            }
+
+            if (handPosition2.Y >= 80 && handPosition2.Y <= 180)
+            {
+                if (handPosition2.X >= 25 && handPosition2.X <= 150)
+                {
+                    if (handState2 == HandState.Closed)
+                    {
+                        choose_flag_left = true;
+                    }
+                    else if (handState2 == HandState.Open)
+                    {
+                        if (choose_flag_left)
+                        {
+                            Button btn = new Button()
+                            {
+                                Width = 160,
+                                Height = 50,
+                            };
+                            btn.Background = new ImageBrush
+                            {
+                                ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/action1.png"))
+                            };
+                            Canvas.SetTop(btn, numSelected * 52);
+                            Selected.Children.Add(btn);
+                            numSelected++;
+                            itemSelected.Add(ACTION_1);
+                            choose_flag_left = false;
+                        }
+                    }
+                }
+                else if (handPosition2.X >= 200 && handPosition2.X <= 300)
+                {
+                    if (handState2 == HandState.Closed)
+                    {
+                        choose_flag_left = true;
+                    }
+                    else if (handState2 == HandState.Open)
+                    {
+                        if (choose_flag_left)
+                        {
+                            Button btn = new Button()
+                            {
+                                Width = 160,
+                                Height = 50,
+                            };
+                            btn.Background = new ImageBrush
+                            {
+                                ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/action2.png"))
+                            };
+                            Canvas.SetTop(btn, numSelected * 52);
+                            Selected.Children.Add(btn);
+                            numSelected++;
+                            itemSelected.Add(ACTION_2);
+                            choose_flag_left = false;
+                        }
+                    }
+                }
+                else if (handPosition2.X >= 380 && handPosition2.X <= 450)
+                {
+                    if (handState2 == HandState.Closed)
+                    {
+                        choose_flag_left = true;
+                    }
+                    else if (handState2 == HandState.Open)
+                    {
+                        if (choose_flag_left)
+                        {
+                            Button btn = new Button()
+                            {
+                                Width = 160,
+                                Height = 50,
+                            };
+                            btn.Background = new ImageBrush
+                            {
+                                ImageSource = new BitmapImage(new Uri("pack://application:,,,/Images/action3.png"))
+                            };
+                            Canvas.SetTop(btn, numSelected * 52);
+                            Selected.Children.Add(btn);
+                            numSelected++;
+                            itemSelected.Add(ACTION_3);
+                            choose_flag_left = false;
+                        }
+                    }
+                }
+            }
+
+
+            else if (handPosition2.Y >= 240 && handPosition2.Y <= 300)
+            {
+                if (handPosition2.X >= 0 && handPosition2.X <= 200)
+                {
+                    if (handState2 == HandState.Closed)
+                    {
+                        choose_flag_left = true;
+                    }
+                    else if (handState2 == HandState.Open)
+                    {
+                        if (choose_flag_left)
+                        {
+                            if (numSelected > 0)
+                            {
+                                Selected.Children.RemoveAt(--numSelected);
+                                itemSelected.RemoveAt(itemSelected.Count - 1);
+                            }
+                            choose_flag_left = false;
+                        }
+                    }
+                }
+                else if (handPosition2.X >= 220 && handPosition2.X <= 480)
+                {
+                    if (handState2 == HandState.Closed)
+                    {
+                        choose_flag_left = true;
+                    }
+                    else if (handState2 == HandState.Open)
+                    {
+                        if (choose_flag_left)
+                        {
+                            SetStatus(STAT_MOVING);
+                            choose_flag_left = false;
+                        }
+                    }
+                }
+
+            }
+
+
+
+
         }
     }
 }
