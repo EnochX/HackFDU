@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping>
+  <class name="edu.fudan.fybody.domain.Record" table="record">
+    <id name="id" column="id" type="int">
+      <generator class="increment"></generator>
+    </id>
+    <property name="user_id" column="user_id" type="int"/>
+    <property name="action_id" column="action_id" type="int"/>
+    <property name="created_at" column="created_at" type="timestamp"/>
+  </class>
+</hibernate-mapping>

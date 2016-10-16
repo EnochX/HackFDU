@@ -1,0 +1,15 @@
+C:\Users\zzy\Desktop\BodyBasics-WPF\bin\AnyCPU\Debug\Kii.exe.config
+C:\Users\zzy\Desktop\BodyBasics-WPF\bin\AnyCPU\Debug\Kii.exe
+C:\Users\zzy\Desktop\BodyBasics-WPF\bin\AnyCPU\Debug\Kii.pdb
+C:\Users\zzy\Desktop\BodyBasics-WPF\bin\AnyCPU\Debug\Microsoft.Kinect.dll
+C:\Users\zzy\Desktop\BodyBasics-WPF\bin\AnyCPU\Debug\Newtonsoft.Json.dll
+C:\Users\zzy\Desktop\BodyBasics-WPF\bin\AnyCPU\Debug\Microsoft.Kinect.xml
+C:\Users\zzy\Desktop\BodyBasics-WPF\obj\Debug\MainWindow.baml
+C:\Users\zzy\Desktop\BodyBasics-WPF\obj\Debug\MainWindow.g.cs
+C:\Users\zzy\Desktop\BodyBasics-WPF\obj\Debug\App.g.cs
+C:\Users\zzy\Desktop\BodyBasics-WPF\obj\Debug\Kii_MarkupCompile.cache
+C:\Users\zzy\Desktop\BodyBasics-WPF\obj\Debug\Kii.g.resources
+C:\Users\zzy\Desktop\BodyBasics-WPF\obj\Debug\Microsoft.Samples.Kinect.Kii.Properties.Resources.resources
+C:\Users\zzy\Desktop\BodyBasics-WPF\obj\Debug\Kii.csproj.GenerateResource.Cache
+C:\Users\zzy\Desktop\BodyBasics-WPF\obj\Debug\Kii.exe
+C:\Users\zzy\Desktop\BodyBasics-WPF\obj\Debug\Kii.pdb
